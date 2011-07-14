@@ -1,0 +1,20 @@
+#!/usr/bin/env ruby
+
+require "parser"
+require "runtime"
+require "readline"
+
+def eval(code)
+  Runtime.run(Parser.new.parse(code).nodes)
+end
+
+if file = ARGV.first
+  puts(eval(File.read(file).chomp))
+else
+  puts "CTRL+C to quit"
+  loop do
+    line = Readline::readline(">> ")
+    Readline::HISTORY.push(line)
+    puts eval(line)
+  end
+end

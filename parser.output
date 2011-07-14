@@ -1,0 +1,104 @@
+
+
+-------- Grammar --------
+
+rule 1 Root: 
+rule 2 Root: Moves
+rule 3 Moves: Move
+rule 4 Moves: Moves Move
+rule 5 Move: WALK
+rule 6 Move: TURN
+
+------- Symbols -------
+
+**Nonterminals, with rules where they appear
+
+  $start (4)
+    on right: 
+    on left : 
+  Root (5)
+    on right: 
+    on left : 1 2
+  Moves (6)
+    on right: 2 4
+    on left : 3 4
+  Move (7)
+    on right: 3 4
+    on left : 5 6
+
+**Terminals, with rules where they appear
+
+  $end (0) 
+  error (1) 
+  WALK (2) 5
+  TURN (3) 6
+
+--------- State ---------
+
+state 0
+
+
+  WALK          shift, and go to state 1
+  TURN          shift, and go to state 2
+  $default      reduce using rule 1 (Root)
+
+  Root          go to state 3
+  Moves         go to state 4
+  Move          go to state 5
+
+state 1
+
+   5) Move : WALK _
+
+  $default      reduce using rule 5 (Move)
+
+
+state 2
+
+   6) Move : TURN _
+
+  $default      reduce using rule 6 (Move)
+
+
+state 3
+
+
+  $end          shift, and go to state 6
+
+
+state 4
+
+   2) Root : Moves _
+   4) Moves : Moves _ Move
+
+  WALK          shift, and go to state 1
+  TURN          shift, and go to state 2
+  $default      reduce using rule 2 (Root)
+
+  Move          go to state 7
+
+state 5
+
+   3) Moves : Move _
+
+  $default      reduce using rule 3 (Moves)
+
+
+state 6
+
+
+  $end          shift, and go to state 8
+
+
+state 7
+
+   4) Moves : Moves Move _
+
+  $default      reduce using rule 4 (Moves)
+
+
+state 8
+
+
+  $default      accept
+
